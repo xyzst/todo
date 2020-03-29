@@ -7,11 +7,9 @@
 //
 
 import UIKit
-//import K
 
 class TodoListViewController: UITableViewController {
-    
-    let items = ["get lemons", "buy eggs"]
+    var items = ["get lemons", "buy eggs"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,5 +30,36 @@ class TodoListViewController: UITableViewController {
         return c
     }
     
+    // MARK - Table View Delegate Methods
+    
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) {
+            cell.accessoryType = cell.accessoryType == .none ? .checkmark : .none
+        }
+        tableView.deselectRow(at: indexPath, animated: true) // Not performing the fade out effect?
+    }
+    
+    // MARK - Add New Items
+    
+    @IBAction func addItemPressed(_ sender: UIBarButtonItem) {
+        var textField = UITextField()
+        let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+            // once the user clicks button, send request to api
+            if let item = textField.text {
+                self.items.append(item)
+                self.tableView.reloadData()
+            }
+        }
+        
+        alert.addTextField { (alertText) in
+            alertText.placeholder = "Create new item"
+            textField = alertText
+        }
+        
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+    }
 }
 
