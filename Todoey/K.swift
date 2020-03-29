@@ -7,3 +7,9 @@
 //
 
 import Foundation
+
+struct K {
+    struct Identifiers {
+       static let TODO_ITEM_CELL_IDENTIFIER = "ToDoItemCell"
+    }
+}
